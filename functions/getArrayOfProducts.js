@@ -8,23 +8,34 @@ const scrollPage = async (selector, page) => {
 };
 
 
-export const getArrayOfProducts = async (origin) => {
+export const getArrayOfProducts = async (origin, page) => {
 
-    switch (origin) {
+    switch (!!origin) {
         case origin.includes('ozon'):
-            await page.waitForSelector('#paginatorContent');
+            await page.waitForSelector('body');
             await scrollPage('.c3118-a1', page)
-
-            return await page.evaluate(() => {
-                const elements = [...document.querySelectorAll('.xi8.x8i')]
-                return elements.map(item => ({
+            let items = []
+           
+            items = await page.$$eval('.widget-search-result-container', (element) => {
+                return element.map(item => ({
                     price: item.querySelector('.c3118-a1').textContent.trim(),
                     link: item.querySelector('a').href,
                     img: item.querySelector('img').src
                 }))
             })
+            return items
+
+            // return await page.evaluate((page) => {
+            //     const elements = [...page.querySelector('.widget-search-result-container').children[0].children]
+            //     console.log('elements', elements)
+            //     return elements.map(item => ({
+            //         price: item.querySelector('.c3118-a1').textContent.trim(),
+            //         link: item.querySelector('a').href,
+            //         img: item.querySelector('img').src
+            //     }))
+            // })
         case origin.includes('wildberries'):
-            await page.waitForSelector('.catalog-page');
+            // await page.waitForSelector('.catalog-page');
             return await page.evaluate(() => {
                 const elements = [...document.querySelectorAll('.product-card ')]
                 return elements.map(item => ({
@@ -34,7 +45,7 @@ export const getArrayOfProducts = async (origin) => {
                 }))
             })
         case origin.includes('satu'):
-            await page.waitForSelector('.MafxA');
+            // await page.waitForSelector('.MafxA');
             return await page.evaluate(() => {
                 const elements = [...document.querySelectorAll('.l-GwW.js-productad')]
                 return elements.map(item => ({

@@ -1,7 +1,6 @@
 export const getCurrentUrl = (searchProduct, origin) => {
-    const shop = origin.split('.')[0]
-
-    switch(shop) {
+    console.log('origin2', origin)
+    switch(!!origin) {
         case origin.includes('ozon'):  
             return `${origin}/search/?text=${encodeURIComponent(searchProduct)}&from_global=true`
         case origin.includes('satu'):

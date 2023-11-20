@@ -7,7 +7,7 @@ export default async function startBrowser(){
 	    browser = await puppeteer.launch({
 			executablePath: '/usr/bin/google-chrome',
 			args: ['--no-sandbox', '--disable-setuid-sandbox'],
-			headless: true
+			headless: 'new'
 		  });
 	} catch (err) {
 	    console.log("Could not create a browser instance => : ", err);

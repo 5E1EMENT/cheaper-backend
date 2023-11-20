@@ -8,12 +8,15 @@ export default async function getScrapedData(searchProduct, origin) {
   try {
     const browser = await startBrowser()
     const page = await browser.newPage();
+    console.log('origin1', origin)
     const url = getCurrentUrl(searchProduct, origin)
+
+    console.log('url', url)
 
     await page.goto(url, { waitUntil: 'load' })
 
 
-    const arrOfProducts = await getArrayOfProducts(origin)
+    const arrOfProducts = await getArrayOfProducts(origin, page)
    
     await browser.close()
 
