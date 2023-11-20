@@ -8,44 +8,23 @@ const scrollPage = async (selector, page) => {
 };
 
 
-export const getArrayOfProducts = async (origin, page) => {
+export const getArrayOfProducts = async (origin, page, searchProduct) => {
 
     switch (!!origin) {
-        case origin.includes('ozon'):
-            await page.waitForSelector('body');
-            await scrollPage('.c3118-a1', page)
-            let items = []
-           
-            items = await page.$$eval('.widget-search-result-container', (element) => {
-                return element.map(item => ({
-                    price: item.querySelector('.c3118-a1').textContent.trim(),
-                    link: item.querySelector('a').href,
-                    img: item.querySelector('img').src
-                }))
-            })
-            return items
-
-            // return await page.evaluate((page) => {
-            //     const elements = [...page.querySelector('.widget-search-result-container').children[0].children]
-            //     console.log('elements', elements)
-            //     return elements.map(item => ({
-            //         price: item.querySelector('.c3118-a1').textContent.trim(),
-            //         link: item.querySelector('a').href,
-            //         img: item.querySelector('img').src
-            //     }))
-            // })
         case origin.includes('wildberries'):
-            // await page.waitForSelector('.catalog-page');
-            return await page.evaluate(() => {
-                const elements = [...document.querySelectorAll('.product-card ')]
+            await page.waitForSelector('.catalog-page');
+
+            return await page.evaluate(async (searchProduct) => {
+                const elements = await fetch(`https://search.wb.ru/exactmatch/ru/common/v4/search?query=${encodeURIComponent(searchProduct)}&resultset=catalog&limit=100&sort=popular&page=1&appType=128&curr=kzt&lang=ru&dest=-1257786&spp=0`).then(res => res.json()).then(data => data.data.products)
                 return elements.map(item => ({
-                    price: item.querySelector('.price__lower-price').textContent.trim(),
-                    link: item.querySelector('a').href,
-                    img: item.querySelector('img').src
-                }))
-            })
+                    price: item.salePriceU,
+                    link: `https://www.wildberries.ru/catalog/${item.id}/detail.aspx`,
+                    img: ''
+                })).sort((a, b) => a.price - b.price)
+            }, searchProduct)
+
         case origin.includes('satu'):
-            // await page.waitForSelector('.MafxA');
+            await page.waitForSelector('[data-qaid="product_gallery"]');
             return await page.evaluate(() => {
                 const elements = [...document.querySelectorAll('.l-GwW.js-productad')]
                 return elements.map(item => ({

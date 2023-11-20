@@ -1,16 +1,27 @@
 import puppeteer from 'puppeteer'
 
-export default async function startBrowser(){
-	let browser;
+export default async function startBrowser(prod) {
 	try {
-	    console.log("Opening the browser......");
-	    browser = await puppeteer.launch({
-			executablePath: '/usr/bin/google-chrome',
-			args: ['--no-sandbox', '--disable-setuid-sandbox'],
+		console.log("Opening the browser......");
+		const options = {
+			args: [
+				'--no-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-gpu',
+				'--disable-setuid-sandbox',
+				'--no-zygote',
+				// Другие параметры, если необходимо
+			  ],
 			headless: 'new'
-		  });
+		}
+
+		if(prod) {
+			options.executablePath = '/usr/bin/google-chrome'
+		}
+		const browser = puppeteer.launch(options);
+		return browser;
 	} catch (err) {
-	    console.log("Could not create a browser instance => : ", err);
+		console.log("Could not create a browser instance => : ", err);
 	}
-	return browser;
+
 }

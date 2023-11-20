@@ -6,19 +6,15 @@ import { getArrayOfProducts } from './functions/getArrayOfProducts.js'
 export default async function getScrapedData(searchProduct, origin) {
 
   try {
-    const browser = await startBrowser()
+    const browser = await startBrowser(true);
     const page = await browser.newPage();
-    console.log('origin1', origin)
     const url = getCurrentUrl(searchProduct, origin)
-
-    console.log('url', url)
 
     await page.goto(url, { waitUntil: 'load' })
 
-
-    const arrOfProducts = await getArrayOfProducts(origin, page)
+    const arrOfProducts = await getArrayOfProducts(origin, page, searchProduct)
    
-    await browser.close()
+    // await browser.close()
 
     return arrOfProducts
   } catch (err) {
