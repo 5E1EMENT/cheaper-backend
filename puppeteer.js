@@ -12,7 +12,10 @@ export default async function startBrowser(prod) {
 				'--no-zygote',
 				// Другие параметры, если необходимо
 			  ],
-			headless: 'new'
+			headless: false,
+			dumpio: true,
+			// Уровень логирования для Chromium
+			logLevel: 'verbose',
 		}
 
 		if(prod) {

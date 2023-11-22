@@ -1,16 +1,18 @@
-const scrollPage = async (selector, page) => {
-    const elements = await page.$$(selector);
-
-    for (const element of elements) {
-        await element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'end' });
-        await page.waitForTimeout(430); // Подождем после каждого скролла
-    }
-};
-
 
 export const getArrayOfProducts = async (origin, page, searchProduct) => {
 
     switch (!!origin) {
+        case origin.includes('ozon'):
+            await page.waitForSelector('.widget-search-result-container')
+
+            return await page.evaluate(() => {
+                const elements = [...document.querySelectorAll('.ix9.x9i')]
+                return elements.map(item => ({
+                    price: Number(item.children[1].children[0].children[0].children[0].textContent.trim().replace(/\D/g,'')),
+                    link: item.querySelector('a').href,
+                    img: item.querySelector('img').src
+                })).sort((a, b) => a.price - b.price)
+            })
         case origin.includes('wildberries'):
             await page.waitForSelector('.catalog-page');
 
@@ -27,11 +29,12 @@ export const getArrayOfProducts = async (origin, page, searchProduct) => {
             await page.waitForSelector('[data-qaid="product_gallery"]');
             return await page.evaluate(() => {
                 const elements = [...document.querySelectorAll('.l-GwW.js-productad')]
+                console.log('elements', elements)
                 return elements.map(item => ({
                     price: item.querySelector('span.yzKb6').textContent.trim(),
                     link: item.querySelector('a').href,
                     img: item.querySelector('img').src
-                }))
+                })).sort((a, b) => a.price - b.price)
             })
 
     }
