@@ -1,4 +1,9 @@
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-extra'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import PuppeteerDevtools  from 'puppeteer-extra-plugin-devtools'
+const devtools = PuppeteerDevtools()
+puppeteer.use(StealthPlugin())
+puppeteer.use(devtools)
 
 export default async function startBrowser(prod) {
 	try {
@@ -21,7 +26,8 @@ export default async function startBrowser(prod) {
 		if(prod) {
 			options.executablePath = '/usr/bin/google-chrome'
 		}
-		const browser = puppeteer.launch(options);
+		const browser = await puppeteer.launch(options);
+		
 		return browser;
 	} catch (err) {
 		console.log("Could not create a browser instance => : ", err);

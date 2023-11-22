@@ -1,0 +1,1 @@
+export const ORIGINS = ['satu.kz', 'wildberries.ru', 'ozon.kz']
