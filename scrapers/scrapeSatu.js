@@ -7,8 +7,9 @@ export const scrapeSatu = async (page) => {
             return elements.map(item => ({
                 price: Number(item.querySelector('span.yzKb6').textContent.trim().replace(/\D/g, '')),
                 link: item.querySelector('a').href,
-                img: item.querySelector('img').src
-            })).sort((a, b) => a.price - b.price);
+                img: item.querySelector('img').src,
+                name: item.querySelector('a').getAttribute('title')
+            })).sort((a, b) => a.price - b.price).slice(0,10);
         });
     } catch (error) {
         console.error('Error scraping Satu:', error);

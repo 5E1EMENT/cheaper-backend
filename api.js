@@ -17,7 +17,8 @@ app.post('/api/scraped-data', async (request, response) => {
     const searchProduct = request.body.searchProduct
     console.log('searchProduct', searchProduct, 'url.origin', url.origin)
     const parsedData = await getScrapedData(searchProduct, url.origin)
-    console.log('parsedData', parsedData)
+    
+
     response.json({
       data: parsedData
     });
@@ -26,6 +27,3 @@ app.post('/api/scraped-data', async (request, response) => {
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`)
 })
-
-//docker build -t daniilnikitas/cheaper-backend:0.0.1.RELEASE .
-//docker container run -d -p 3000:3000 daniilnikitas/cheaper-backend:0.0.1.RELEASE

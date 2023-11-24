@@ -7,8 +7,9 @@ export const scrapeOzon = async (page) => {
             return elements.map(item => ({
                 price: Number(item.children[1].children[0].children[0].children[0].textContent.trim().replace(/\D/g, '')),
                 link: item.querySelector('a').href,
-                img: item.querySelector('img').src
-            })).sort((a, b) => a.price - b.price);
+                img: item.querySelector('img').src,
+                name: item.children[1].querySelector('a').textContent
+            })).sort((a, b) => a.price - b.price).slice(0,10);
         });
     } catch (error) {
         console.error('Error scraping Ozon:', error);
