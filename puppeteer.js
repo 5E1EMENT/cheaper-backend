@@ -17,7 +17,7 @@ export default async function startBrowser(prod) {
 				'--no-zygote',
 				// Другие параметры, если необходимо
 			  ],
-			headless: false,
+			headless: 'new',
 			dumpio: true,
 			// Уровень логирования для Chromium
 			logLevel: 'verbose',

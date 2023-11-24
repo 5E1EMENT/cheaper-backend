@@ -19,7 +19,7 @@ export const getProductsData = async (pages, searchProduct) => {
         }
     };
 
-        const [ozonResult, wildberriesResult, satuResult] = await Promise.all(functions);
+        const [satuResult, wildberriesResult, ozonResult] = await Promise.all(functions);
 
         result.ozon = ozonResult;
         result.wildberries = wildberriesResult;
