@@ -27,6 +27,7 @@ export const getUnifiedProductName = async (productName) => {
 
 export const getSimilarProductStrings = async (productsData, productName) => {
     try {
+        console.log('productsData', productsData.length)
         return await openApi.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{ role: "user", content: `Мне нужно найти товар, похожий на ${productName}. Вот список товаров: ${JSON.stringify(productsData)}. Возьми имя товара по полю name и верни товары которые похожи на ${productName}? Ответ верни в формате JSON: products` }],
