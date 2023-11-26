@@ -5,7 +5,7 @@ import {scrapeSatu} from '../scrapers/scrapeSatu.js';
 
 
 export const getProductsData = async (pages, searchProduct) => {
-    let result = {}
+    let result = []
     const functions = [];
     // Вызываем все функции скрапинга параллельно
     for (let page of pages) {
@@ -20,10 +20,8 @@ export const getProductsData = async (pages, searchProduct) => {
     };
 
         const [satuResult, wildberriesResult, ozonResult] = await Promise.all(functions);
-
-        result.ozon = ozonResult;
-        result.wildberries = wildberriesResult;
-        result.satu = satuResult;
+        console.log('satuResult', satuResult.length, 'wildberriesResult', wildberriesResult.length, 'ozonResult', ozonResult.length)
+        result.push(...ozonResult, ...wildberriesResult, ...satuResult)
 
         return result;
 }

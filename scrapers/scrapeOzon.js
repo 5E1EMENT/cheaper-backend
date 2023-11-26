@@ -5,7 +5,7 @@ export const scrapeOzon = async (page) => {
         return await page.evaluate(() => {
             const elements = [...document.querySelector('.widget-search-result-container').children[0].children];
             return elements.map(item => ({
-                price: Number(item.children[1].children[0].children[0].children[0].textContent.trim().replace(/\D/g, '')),
+                price: Number(item.children[2].children[0].children[0].children[0].textContent.trim().replace(/\D/g, '')),
                 link: item.querySelector('a').href,
                 img: item.querySelector('img').src,
                 name: item.children[1].querySelector('a').textContent

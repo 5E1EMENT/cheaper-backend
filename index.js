@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
-const parsedData = await getScrapedData('Iphone 15 max', 'https://ozon.kz')
+const parsedData = await getScrapedData('Iphone 15 Pro max', 'https://ozon.kz')
 
 
 app.listen(port, hostname, () => {
