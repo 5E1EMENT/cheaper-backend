@@ -13,10 +13,9 @@ app.use((req, res, next) => {
   next();
 });
 app.post('/api/scraped-data', async (request, response) => {
-    const url = new URL(request.body.url)
     const searchProduct = request.body.searchProduct
-    console.log('searchProduct', searchProduct, 'url.origin', url.origin)
-    const parsedData = await getScrapedData(searchProduct, url.origin)
+    console.log('searchProduct', searchProduct)
+    const parsedData = await getScrapedData(searchProduct)
     
 
     response.json({
