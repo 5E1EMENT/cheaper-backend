@@ -23,6 +23,9 @@ export default async function startBrowser(prod) {
 			logLevel: 'verbose',
 		}
 
+		console.log('prod', prod)
+		console.log('prod === true', prod === 'true')
+
 		if(prod === 'true') {
 			options.executablePath = '/usr/bin/google-chrome'
 		}

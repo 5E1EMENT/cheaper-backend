@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node api.js",
     "docker-build": "cross-env IS_API=true docker build -t daniilnikitas/cheaper-backend:0.0.1.RELEASE .",
-    "docker-run": "docker container run -d -p 3000:3000 daniilnikitas/cheaper-backend:0.0.1.RELEASE"
+    "docker-run": "docker container run -d -p 3000:3000 -e IS_API=true daniilnikitas/cheaper-backend:0.0.1.RELEASE"
   },
   "engines": {
     "node": ">=14.18.0"
