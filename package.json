@@ -6,17 +6,18 @@
   "main": "api.js",
   "scripts": {
     "start": "node api.js",
-    "docker-build": "IS_API=true docker build -t daniilnikitas/cheaper-backend:0.0.1.RELEASE .",
+    "docker-build": "cross-env IS_API=true docker build -t daniilnikitas/cheaper-backend:0.0.1.RELEASE .",
     "docker-run": "docker container run -d -p 3000:3000 daniilnikitas/cheaper-backend:0.0.1.RELEASE"
   },
   "engines": {
     "node": ">=14.18.0"
   },
-  "keywords": [], 
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
