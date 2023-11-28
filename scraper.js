@@ -9,7 +9,8 @@ import { getUnifiedProductName, getSimilarProductStrings } from './helpers/opena
 export default async function getScrapedData(searchProduct) {
   let browser
   try {
-    browser = await startBrowser();
+    console.log('process.env.IS_API', process.env.IS_API)
+    browser = await startBrowser(process.env.IS_API);
     console.log('start')
     const unifiedName = await fetchDataWithRetry(getUnifiedProductName, searchProduct);
     console.log('unifiedName', unifiedName)

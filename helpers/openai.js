@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const openApi = new OpenAI({
-    apiKey: 'sk-5EeW6hRLmP2i2Sui668cCb35Bc46471b98F6645c544aB762',
+    apiKey: process.env.API_KEY,
     dangerouslyAllowBrowser: true,
     baseURL: 'https://neuroapi.host/v1',
     defaultHeaders: {

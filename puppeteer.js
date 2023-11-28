@@ -23,7 +23,7 @@ export default async function startBrowser(prod) {
 			logLevel: 'verbose',
 		}
 
-		if(prod) {
+		if(prod === 'true') {
 			options.executablePath = '/usr/bin/google-chrome'
 		}
 		const browser = await puppeteer.launch(options);
