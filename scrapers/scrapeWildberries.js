@@ -3,7 +3,10 @@ export const scrapeWildberries = async (page, searchProduct) => {
         await page.waitForSelector('.catalog-page');
         return await page.evaluate(async (searchProduct) => {
 
-            const elements = await fetch(`https://search.wb.ru/exactmatch/ru/common/v4/search?TestGroup=control&TestID=370&appType=1&curr=kzt&dest=-1257786&query=${encodeURIComponent(searchProduct)}&resultset=catalog&sort=popular&spp=29&suppressSpellcheck=false`).then(res => res.json()).then(data => data.data?.products);
+            const elements = await fetch(`https://search.wb.ru/exactmatch/ru/common/v4/search?TestGroup=no_test&TestID=no_test&appType=1&curr=kzt&dest=-1257786&query=${encodeURIComponent(searchProduct)}&resultset=catalog&sort=popular&spp=26&suppressSpellcheck=false`).then(res => res.json()).then(data => {
+                console.log(data.data)
+                return data.data?.products
+            })
             console.log('elements', elements)
             return elements.map(item => ({
                 price: item.salePriceU / 100,

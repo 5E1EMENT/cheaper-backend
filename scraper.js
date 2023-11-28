@@ -2,19 +2,21 @@ import startBrowser from './puppeteer.js'
 import { getCurrentUrl } from './functions/getCurrentUrl.js'
 import { getProductsData } from './functions/getProductsData.js'
 import { getSimilarProducts } from './functions/getSimilarProducts.js'
+import { fetchDataWithRetry } from './functions/fetchWithRetry.js'
 import { ORIGINS } from './helpers/constants.js'
-import { getUnifiedProductName, getSimilarProductStrings} from './helpers/openai.js';
+import { getUnifiedProductName, getSimilarProductStrings } from './helpers/openai.js';
 
 export default async function getScrapedData(searchProduct) {
   let browser
   try {
-    browser = await startBrowser(true);
-    const unifiedName = await getUnifiedProductName(searchProduct);
+    browser = await startBrowser();
+    console.log('start')
+    const unifiedName = await fetchDataWithRetry(getUnifiedProductName, searchProduct);
     console.log('unifiedName', unifiedName)
     const pages = []
     for (let origin of ORIGINS) {
       const page = await browser.newPage();
-      const url = getCurrentUrl(searchProduct, origin)
+      const url = getCurrentUrl(unifiedName, origin)
       console.log('url', url)
       await page.goto(url, { waitUntil: 'domcontentloaded' });
       pages.push({
@@ -25,9 +27,10 @@ export default async function getScrapedData(searchProduct) {
     }
 
     const productsData = await getProductsData(pages, unifiedName)
-    const similarProductsStrings = await getSimilarProductStrings(productsData.map(item => item.name), searchProduct)
+    const productNames = productsData.map(item => item.name)
+    const similarProductsStrings = await fetchDataWithRetry(getSimilarProductStrings, productNames, searchProduct)
     const similarProductsData = getSimilarProducts(similarProductsStrings, productsData)
-
+    console.log('similarProductsData', similarProductsData)
     return similarProductsData
   } catch (err) {
     console.log("Could not resolve the browser instance => ", err);
