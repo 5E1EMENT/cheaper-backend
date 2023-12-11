@@ -8,9 +8,11 @@ import { getUnifiedProductName, getSimilarProductStrings } from './helpers/opena
 
 export default async function getScrapedData(searchProduct) {
   let browser
+  const isHeadless = process.env.IS_HEADLESS
+
   try {
     console.log('process.env.IS_API', process.env.IS_API)
-    browser = await startBrowser(process.env.IS_API);
+    browser = await startBrowser();
     console.log('start')
     const unifiedName = await fetchDataWithRetry(getUnifiedProductName, searchProduct);
     console.log('unifiedName', unifiedName)
@@ -36,7 +38,7 @@ export default async function getScrapedData(searchProduct) {
   } catch (err) {
     console.log("Could not resolve the browser instance => ", err);
   } finally {
-    await browser.close()
+    isHeadless === 'new' ? await browser.close() : false
   }
 
 }

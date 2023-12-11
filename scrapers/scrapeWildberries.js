@@ -1,9 +1,9 @@
 export const scrapeWildberries = async (page, searchProduct) => {
     try {
-        await page.waitForSelector('.catalog-page');
+        await page.waitForSelector('div[data-tag="catalogPanel"]');
         return await page.evaluate(async (searchProduct) => {
 
-            const elements = await fetch(`https://search.wb.ru/exactmatch/ru/common/v4/search?TestGroup=no_test&TestID=no_test&appType=1&curr=kzt&dest=-1257786&query=${encodeURIComponent(searchProduct)}&resultset=catalog&sort=popular&spp=26&suppressSpellcheck=false`).then(res => res.json()).then(data => {
+            const elements = await fetch(`https://search.wb.ru/exactmatch/ru/common/v4/search?query=${encodeURIComponent(searchProduct)}&resultset=catalog&limit=100&sort=popular&page=1&appType=128&curr=kzt&lang=ru&dest=-1257786&spp=27`).then(res => res.json()).then(data => {
                 console.log(data.data)
                 return data.data?.products
             })

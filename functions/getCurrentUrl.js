@@ -5,6 +5,6 @@ export const getCurrentUrl = (searchProduct, origin) => {
         case origin.includes('satu'):
             return `https://${origin}/search?search_term=${encodeURIComponent(searchProduct)}`
         case origin.includes('wildberries'):
-            return `https://${origin}/catalog/0/search.aspx?search=${encodeURIComponent(searchProduct)}&curr=kzt`
+            return `https://global.${origin}/catalog?search=${encodeURIComponent(searchProduct)}&curr=kzt`
     }
 }

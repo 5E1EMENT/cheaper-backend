@@ -1,1 +1,1 @@
-export const ORIGINS = ['satu.kz', 'wildberries.ru', 'ozon.kz']
+export const ORIGINS = ['satu.kz', 'wildberries.ru', 'ozon.kz'] //Add global.wildberries and parse from site

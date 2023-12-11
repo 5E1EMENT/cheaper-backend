@@ -5,9 +5,13 @@ const devtools = PuppeteerDevtools()
 puppeteer.use(StealthPlugin())
 puppeteer.use(devtools)
 
-export default async function startBrowser(prod) {
+const isApi = process.env.IS_API
+const isHeadless = process.env.IS_HEADLESS
+
+export default async function startBrowser() {
 	try {
 		console.log("Opening the browser......");
+		console.log("isHeadless", isHeadless === 'new' ? isHeadless : false);
 		const options = {
 			args: [
 				'--no-sandbox',
@@ -17,16 +21,15 @@ export default async function startBrowser(prod) {
 				'--no-zygote',
 				// Другие параметры, если необходимо
 			  ],
-			headless: 'new',
+			headless: isHeadless === 'new' ? isHeadless : false,
 			dumpio: true,
 			// Уровень логирования для Chromium
 			logLevel: 'verbose',
 		}
 
-		console.log('prod', prod)
-		console.log('prod === true', prod === 'true')
+		console.log('isApi === true', isApi === 'true')
 
-		if(prod === 'true') {
+		if(isApi === 'true') {
 			options.executablePath = '/usr/bin/google-chrome'
 		}
 		const browser = await puppeteer.launch(options);

@@ -6,6 +6,8 @@
   "main": "api.js",
   "scripts": {
     "start": "node api.js",
+    "dev": "nodemon index.js 3000",
+    "dev:browser": "cross-env IS_API=false IS_HEADLESS=false nodemon  index.js 3000",
     "docker-build": "cross-env IS_API=true docker build -t daniilnikitas/cheaper-backend:0.0.1.RELEASE .",
     "docker-run": "docker container run -d -p 3000:3000 -e IS_API=true daniilnikitas/cheaper-backend:0.0.1.RELEASE"
   },
