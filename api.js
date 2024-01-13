@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 });
 app.post('/api/scraped-data', async (request, response) => {
     const searchProduct = request.body.searchProduct
+    console.log('request', request)
     console.log('request.body', request.body)
     console.log('searchProduct', searchProduct)
     const parsedData = await getScrapedData(searchProduct)
