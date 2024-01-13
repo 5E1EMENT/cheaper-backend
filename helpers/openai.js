@@ -12,6 +12,7 @@ const openApi = new OpenAI({
 
 export const getUnifiedProductName = async (productName) => {
     try {
+        console.log('getUnifiedProductName', productName)
         return await openApi.chat.completions.create({
             model: "gpt-3.5-turbo",// пробуем гпт 4 /gpt-3.5-turbo
             messages: [{ role: "user", content: `Выдели главное в названии товара, убери тип товара оставь только основные признаки товара: ${productName}. Ответ в формате JSON {productName: productName}.  Для меня очень важно, чтобы ты все время возвращал только в таком формате` }],
@@ -27,12 +28,13 @@ export const getUnifiedProductName = async (productName) => {
 
 export const getSimilarProductStrings = async (productsData, productName) => {
     try {
-        console.log('getSimilarProductStrings')
+        console.log('getSimilarProductStrings', productsData)
+        console.log('getSimilarProductStrings 2', productName)
         return await openApi.chat.completions.create({
-            model: "gpt-4", // пробуем гпт 4 / gpt-3.5-turbo
+            model: "gpt-3.5-turbo", // пробуем гпт 4 / gpt-3.5-turbo
             messages: [{ role: "user", content: `Мне нужно найти товар, похожий на ${productName}. Вот список товаров: ${JSON.stringify(productsData)}. Возьми имя товара по полю name и верни товары которые похожи на ${productName}? Ответ верни в формате JSON: {products: products}` }],
             temperature: 0,
-            max_tokens: 1000,
+            max_tokens: 2000,
           }).then(data => JSON.parse(JSON.parse(JSON.stringify(data.choices[0].message.content))).products)   
     } catch (e) {
         console.error('Error getting similar products strings (getSimilarProductStrings) :', e);
