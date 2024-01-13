@@ -32,7 +32,7 @@ export default async function getScrapedData(searchProduct) {
     const productsData = await getProductsData(pages, unifiedName)
     const productNames = productsData.map(item => item.name)
     const similarProductsStrings = await fetchDataWithRetry(getSimilarProductStrings, productNames, searchProduct)
-    const similarProductsData = getSimilarProducts(similarProductsStrings, productsData)
+    const similarProductsData = getSimilarProducts(similarProductsStrings, productsData) || []
     console.log('similarProductsData', similarProductsData)
     return similarProductsData
   } catch (err) {
