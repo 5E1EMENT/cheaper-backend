@@ -17,11 +17,8 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', "default-src 'self' *.ozone.ru *.ozonusercontent.com  http://localhost:3000 *.ozon.ru *.kz.ozon.com *.ozon.by *.ozon.kz *.ozonru.me *.by-stg.ozonru.me *.kz-stg.ozoncom.me enterprise.api-maps.yandex.ru wss:");
   next();
 });
-app.post('/api/scraped-data', async (request, response) => {
-    const searchProduct = request.body.searchProduct
-    console.log('request', request)
-    console.log('request.body', request.body)
-    console.log('searchProduct', searchProduct)
+app.get('/api/scraped-data', async (request, response) => {
+    const searchProduct = request.query.searchProduct
     const parsedData = await getScrapedData(searchProduct)
     
 
