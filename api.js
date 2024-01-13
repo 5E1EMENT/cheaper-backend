@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
-import bodyParser from 'bodyParser'
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import getScrapedData from './scraper.js'
 const app = express()
