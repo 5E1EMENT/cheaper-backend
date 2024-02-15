@@ -4,17 +4,27 @@ import { getProductsData } from './functions/getProductsData.js'
 import { getSimilarProducts } from './functions/getSimilarProducts.js'
 import { fetchDataWithRetry } from './functions/fetchWithRetry.js'
 import { ORIGINS } from './helpers/constants.js'
-import { getUnifiedProductName, getSimilarProductStrings } from './helpers/openai.js';
+import { ChatGPT } from './helpers/openai.js';
+import { ChatController } from './helpers/ChatController.js';
+import { GigaChat } from './helpers/gigaChat.js'
+
 
 export default async function getScrapedData(searchProduct) {
   let browser
   const isHeadless = process.env.IS_HEADLESS
 
   try {
+    // Пример использования
+    const chatGPT = new ChatGPT();
+    const gigaChat = new GigaChat();
+
+    const chatController1 = new ChatController(chatGPT);
+    const chatController2 = new ChatController(gigaChat);
+
     console.log('process.env.IS_API', process.env.IS_API)
     browser = await startBrowser();
     console.log('start')
-    const unifiedName = await fetchDataWithRetry(getUnifiedProductName, searchProduct);
+    const unifiedName = await fetchDataWithRetry((searchProduct) => chatController2.getUnifiedProductName(searchProduct), searchProduct);
     console.log('unifiedName', unifiedName)
     const pages = []
     for (let origin of ORIGINS) {
@@ -31,7 +41,8 @@ export default async function getScrapedData(searchProduct) {
 
     const productsData = await getProductsData(pages, unifiedName)
     const productNames = productsData.map(item => item.name)
-    const similarProductsStrings = await fetchDataWithRetry(getSimilarProductStrings, productNames, searchProduct)
+    console.log('productNames', productNames)
+    const similarProductsStrings = await fetchDataWithRetry((productNames, searchProduct) => chatController2.getSimilarProductStrings(productNames, searchProduct), productNames, searchProduct)
     const similarProductsData = getSimilarProducts(similarProductsStrings, productsData) || []
     console.log('similarProductsData', similarProductsData)
     return similarProductsData

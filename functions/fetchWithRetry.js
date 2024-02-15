@@ -10,9 +10,11 @@ export const fetchDataWithRetry = async (apiFunction, ...args) => {
         });
         try {
             // Ваш запрос API, предположим, это функция, возвращающая Promise
+
             const data = await Promise.race([apiFunction(...args), timeoutPromise]);
             console.log(`Attempt ${currentAttempt} `)
             // Обработка успешного ответа
+            console.log('data from fetch retry', data)
             return data;
         } catch (error) {
             console.log(`Attempt ${currentAttempt} failed. Error: ${error.message}`);
