@@ -6,7 +6,7 @@ import {scrapeSatu} from '../scrapers/scrapeSatu.js';
 
 export const getProductsData = async (pages, searchProduct) => {
     const scraperFunctions = {
-      'ozon.kz': scrapeOzon,
+      
       'wildberries.ru': scrapeWildberries,
       'satu.kz': scrapeSatu,
       // Добавьте другие функции скрапинга, если необходимо
