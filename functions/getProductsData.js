@@ -22,6 +22,7 @@ export const getProductsData = async (pages, searchProduct) => {
     });
   
     const results = await Promise.all(scraperPromises);
+    console.log('results', results)
     const flattenedResults = [].concat(...results);
   
     return flattenedResults;

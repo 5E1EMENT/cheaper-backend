@@ -20,6 +20,7 @@ requestBody.append('scope', scopeData);
 
 export class GigaChat extends ChatBot {
     bearer = null
+    expiresAt = null
 
     constructor() {
         super()
@@ -27,6 +28,10 @@ export class GigaChat extends ChatBot {
     }
 
     async #initialize() {
+        if (this.expiresAt && new Date(this.expiresAt) > new Date()) {
+            return;
+        }
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -39,9 +44,10 @@ export class GigaChat extends ChatBot {
         })
             .then(response => response.json())
             .then(data => {
+                console.log('data', data)
                 if (data.access_token) {
                     this.bearer = data.access_token
-                    console.log(this.bearer)
+                    this.expiresAt = data.expires_at
                 } else {
                     throw new Error('Ошибка', data)
                 }
